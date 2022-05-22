@@ -1,0 +1,14 @@
+{
+    "name": "Gilzoide.AllAssetsList",
+    "rootNamespace": "Gilzoide.AllAssetsList",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
