@@ -1,5 +1,5 @@
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
@@ -12,23 +12,39 @@ namespace Gilzoide.AllAssetsList
     {
         [TypeNameAttribute(TypeFilterMethod = nameof(TypeFilter))]
         public string AssetTypeName;
+        public List<Object> Assets;
 
-        public Object[] Assets;
+        static bool TypeFilter(Type type) => !type.IsSubclassOf(typeof(Component))
+            && !type.IsSubclassOf(typeof(GameObject));
 
-        [Conditional("UNITY_EDITOR"), ContextMenu("Update List")]
-        public void UpdateList()
+#if UNITY_EDITOR
+        [SerializeField, HideInInspector] private string _assetTypeName;
+
+        [ContextMenu("Update List")]
+        void UpdateList()
         {
             string[] guids = AssetDatabase.FindAssets("t:" + AssetTypeName);
             Array.Sort(guids);
             Assets = guids
                 .Select(guid => AssetDatabase.GUIDToAssetPath(guid))
                 .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(Object)))
-                .ToArray();
+                .ToList();
+            EditorUtility.SetDirty(this);
         }
 
-        [Conditional("UNITY_EDITOR")] public void OnValidate() => UpdateList();
-        [Conditional("UNITY_EDITOR")] public void OnEnable() => UpdateList();
+        void OnEnable()
+        {
+            UpdateList();
+        }
 
-        public static bool TypeFilter(Type type) => !type.IsSubclassOf(typeof(Component));
+        void OnValidate()
+        {
+            if (_assetTypeName != AssetTypeName)
+            {
+                _assetTypeName = AssetTypeName;
+                UpdateList();
+            }
+        }
+#endif
     }
 }

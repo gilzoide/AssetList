@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Gilzoide.AllAssetsList.Editor
 {
@@ -62,11 +62,12 @@ namespace Gilzoide.AllAssetsList.Editor
                 IEnumerable<Type> types = TypeCache.GetTypesDerivedFrom(Attribute.BaseClass);
                 if (!string.IsNullOrEmpty(Attribute.TypeFilterMethod))
                 {
-                    var method = fieldInfo.DeclaringType.GetMethod(Attribute.TypeFilterMethod);
+                    var method = fieldInfo.DeclaringType.GetMethod(Attribute.TypeFilterMethod,
+                        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
                     var filterDelegate = (Func<Type, bool>) method.CreateDelegate(typeof(Func<Type, bool>));
                     types = types.Where(filterDelegate);
                 }
-                _availableTypes = types.Select(type => type.FullName).OrderBy(name => name).ToList();
+                _availableTypes = types.Select(type => type.FullName).OrderBy(x => x).ToList();
             }
             return _availableTypes;
         }
