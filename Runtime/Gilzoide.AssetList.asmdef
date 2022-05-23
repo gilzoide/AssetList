@@ -1,6 +1,6 @@
 {
-    "name": "Gilzoide.AllAssetsList",
-    "rootNamespace": "Gilzoide.AllAssetsList",
+    "name": "Gilzoide.AssetList",
+    "rootNamespace": "Gilzoide.AssetList",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

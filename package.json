@@ -1,6 +1,6 @@
 {
   "name": "com.gilzoide.assetlist",
-  "displayName": "All Assets List",
+  "displayName": "Asset List",
   "version": "1.0.0",
-  "description": "ScriptableObject that automatically aggregates all assets of a specific type"
+  "description": "ScriptableObject that automatically aggregates all assets from a search filter"
 }
