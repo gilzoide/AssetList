@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using Object = UnityEngine.Object;
 
-namespace Gilzoide.AllAssetsList
+namespace Gilzoide.AssetList
 {
     [CreateAssetMenu(menuName = "AssetList", fileName = "AssetList")]
     public class AssetList : ScriptableObject
@@ -22,21 +21,10 @@ namespace Gilzoide.AllAssetsList
                 return;
             }
 
-            var existingGuids = new HashSet<string>(Assets
-                .Select(obj => AssetDatabase.GetAssetPath(obj))
-                .Where(path => !string.IsNullOrEmpty(path))
-                .Select(path => AssetDatabase.AssetPathToGUID(path)));
-
-            string[] guids = AssetDatabase.FindAssets(SearchFilter);
-            if (existingGuids.Count == Assets.Count && existingGuids.SetEquals(guids))
-            {
-                return;
-            }
-
-            Array.Sort(guids);
-            Assets = guids
-                .Select(guid => AssetDatabase.GUIDToAssetPath(guid))
-                .Select(path => AssetDatabase.LoadAssetAtPath(path, typeof(Object)))
+            Assets = AssetDatabase.FindAssets(SearchFilter)
+                .OrderBy(Identity)
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .Select(AssetDatabase.LoadAssetAtPath<Object>)
                 .ToList();
             EditorUtility.SetDirty(this);
         }
@@ -44,6 +32,11 @@ namespace Gilzoide.AllAssetsList
         void OnEnable()
         {
             UpdateList();
+        }
+
+        T Identity<T>(T x)
+        {
+            return x;
         }
 
         [CustomEditor(typeof(AssetList)), CanEditMultipleObjects]
@@ -60,7 +53,7 @@ namespace Gilzoide.AllAssetsList
                     {
                         EditorGUILayout.PropertyField(property);
                     }
-                    if (property.name == nameof(AssetList.SearchFilter) && GUILayout.Button("Update List"))
+                    if (property.name == nameof(SearchFilter) && GUILayout.Button("Update List"))
                     {
                         foreach (Object obj in targets)
                         {
