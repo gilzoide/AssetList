@@ -22,7 +22,17 @@ namespace Gilzoide.AllAssetsList
                 return;
             }
 
+            var existingGuids = new HashSet<string>(Assets
+                .Select(obj => AssetDatabase.GetAssetPath(obj))
+                .Where(path => !string.IsNullOrEmpty(path))
+                .Select(path => AssetDatabase.AssetPathToGUID(path)));
+
             string[] guids = AssetDatabase.FindAssets(SearchFilter);
+            if (existingGuids.Count == Assets.Count && existingGuids.SetEquals(guids))
+            {
+                return;
+            }
+
             Array.Sort(guids);
             Assets = guids
                 .Select(guid => AssetDatabase.GUIDToAssetPath(guid))
@@ -46,7 +56,7 @@ namespace Gilzoide.AllAssetsList
                 property.NextVisible(true);
                 do
                 {
-                    using (property.name == "m_Script" ? new EditorGUI.DisabledScope(true) : default)
+                    using (new EditorGUI.DisabledScope(property.name == "m_Script"))
                     {
                         EditorGUILayout.PropertyField(property);
                     }
