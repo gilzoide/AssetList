@@ -14,15 +14,21 @@ namespace Gilzoide.AssetList
     public partial class AssetList : ScriptableObject
     {
         /// <summary>
-        /// An <cref>AssetDatabase</cref> search filter.
-        /// If empty, the <cref>Assets</cref> list will be empty.
+        /// An <see cref="AssetDatabase"/> search filter.
+        /// If empty, the <see cref="Assets"/> list will be empty.
         /// </summary>
-        [Tooltip("An AssetDatabase search filter. If empty, the Assets list will be empty")]
+        /// <seealso cref="AssetDatabase.FindAssets" href="https://docs.unity3d.com/ScriptReference/AssetDatabase.FindAssets.html"/>
+        [Tooltip("An AssetDatabase search filter. If empty, the Assets list will be empty.")]
         public string SearchFilter;
 
+        /// <summary>The folders where the search will start.</summary>
+        /// <seealso cref="AssetDatabase.FindAssets" href="https://docs.unity3d.com/ScriptReference/AssetDatabase.FindAssets.html"/>
+        [Tooltip("The folders where the search will start.")]
+        public string[] SearchInFolders;
+
         /// <summary>
-        /// List of assets found by <cref>AssetDatabase.FindAssets</cref> using the
-        /// <cref>SearchFilter</cref>.
+        /// List of assets found by <see cref="AssetDatabase.FindAssets"/> using the
+        /// <see cref="SearchFilter"/> and <see cref="SearchInFolders"/>.
         /// </summary>
         public List<Object> Assets;
     }
@@ -57,7 +63,7 @@ namespace Gilzoide.AssetList
                 return;
             }
 
-            Assets = AssetDatabase.FindAssets(SearchFilter)
+            Assets = AssetDatabase.FindAssets(SearchFilter, SearchInFolders)
                 .OrderBy(x => x)
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Select(AssetDatabase.LoadAssetAtPath<Object>)
@@ -80,7 +86,7 @@ namespace Gilzoide.AssetList
                 {
                     EditorGUILayout.PropertyField(property);
                 }
-                if (property.name == nameof(AssetList.SearchFilter) && GUILayout.Button("Update Assets List"))
+                if (property.name == nameof(AssetList.SearchInFolders) && GUILayout.Button("Update Assets List"))
                 {
                     foreach (Object obj in targets)
                     {
