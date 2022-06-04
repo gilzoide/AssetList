@@ -3,6 +3,8 @@ using UnityEngine;
 #if UNITY_EDITOR
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
 using System.Threading.Tasks;
 #endif
 
@@ -92,7 +94,7 @@ namespace Gilzoide.AssetList
     }
 
     /// <summary>
-    /// Updates all AssetLists in project when creating/deleting assets.
+    /// Updates all AssetLists in project when creating/deleting assets or building.
     /// </summary>
     static class AllAssetListsUpdater
     {
@@ -121,6 +123,26 @@ namespace Gilzoide.AssetList
             UpdateAllLists();
             _updateQueued = false;
         }
+
+#if UNITY_2018_1_OR_NEWER
+        class AssetListPreprocessBuild : IPreprocessBuildWithReport
+        {
+            public int callbackOrder => 0;
+            public void OnPreprocessBuild(BuildReport report)
+            {
+                UpdateAllLists();
+            }
+        }
+#else
+        class AssetListPreprocessBuild : IPreprocessBuild
+        {
+            public int callbackOrder => 0;
+            public void OnPreprocessBuild(BuildTarget target, string path)
+            {
+                UpdateAllLists();
+            }
+        }
+#endif
 
         class AssetListModificationProcessor : UnityEditor.AssetModificationProcessor
         {
