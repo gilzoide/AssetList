@@ -14,7 +14,8 @@ contains the same assets as before.
 Either:
 
 - Copy the [Runtime/AssetList.cs](Runtime/AssetList.cs) file into your project
-- Install using the [Unity Package Manager](https://docs.unity3d.com/Manual/upm-ui-giturl.html):
+- Install via [Unity Package Manager](https://docs.unity3d.com/Manual/upm-ui-giturl.html)
+  using this repository URL:
 
 ```
 https://github.com/gilzoide/AssetList.git
