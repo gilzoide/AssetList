@@ -3,6 +3,7 @@ using UnityEngine;
 #if UNITY_EDITOR
 using System.Linq;
 using UnityEditor;
+using System.Threading.Tasks;
 #endif
 
 namespace Gilzoide.AssetList
@@ -87,6 +88,52 @@ namespace Gilzoide.AssetList
             }
             while (property.NextVisible(false));
             serializedObject.ApplyModifiedProperties();
+        }
+    }
+
+    /// <summary>
+    /// Updates all AssetLists in project when creating/deleting assets.
+    /// </summary>
+    static class AllAssetListsUpdater
+    {
+        static bool _updateQueued = false;
+
+        static void UpdateAllLists()
+        {
+            IEnumerable<AssetList> lists = AssetDatabase.FindAssets("t:" + nameof(AssetList))
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .Select(AssetDatabase.LoadAssetAtPath<AssetList>);
+            foreach (AssetList list in lists)
+            {
+                list.UpdateList();
+            }
+        }
+
+        static async void QueueUpdateAllLists()
+        {
+            if (_updateQueued)
+            {
+                return;
+            }
+
+            _updateQueued = true;
+            await Task.Yield();
+            UpdateAllLists();
+            _updateQueued = false;
+        }
+
+        class AssetListModificationProcessor : UnityEditor.AssetModificationProcessor
+        {
+            static void OnWillCreateAsset(string path)
+            {
+                QueueUpdateAllLists();
+            }
+
+            static AssetDeleteResult OnWillDeleteAsset(string path, RemoveAssetOptions options)
+            {
+                QueueUpdateAllLists();
+                return AssetDeleteResult.DidNotDelete;
+            }
         }
     }
 #endif
