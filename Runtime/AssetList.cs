@@ -27,8 +27,8 @@ namespace Gilzoide.AssetList
         public string[] SearchInFolders;
 
         /// <summary>
-        /// List of assets found by <see cref="AssetDatabase.FindAssets"/> using the
-        /// <see cref="SearchFilter"/> and <see cref="SearchInFolders"/>.
+        /// List of assets found by <see cref="AssetDatabase.FindAssets"/> using
+        /// <see cref="SearchFilter"/> and <see cref="SearchInFolders"/> as parameters.
         /// </summary>
         public List<Object> Assets;
     }
@@ -52,7 +52,8 @@ namespace Gilzoide.AssetList
         }
 
         /// <summary>
-        /// Update the <cref>Assets</cref> list, based on the configured <cref>SearchFilter</cref>.
+        /// Update the <see cref="Assets"/> list based on the configured <see cref="SearchFilter"/>
+        /// and <see cref="SearchInFolders"/> fields.
         /// </summary>
         [ContextMenu("Update Assets List")]
         internal void UpdateList()
