@@ -1,0 +1,20 @@
+{
+    "name": "Gilzoide.AssetList.Editor",
+    "rootNamespace": "Gilzoide.AssetList.Editor",
+    "references": [
+        "GUID:faac9f32efd5330d8920c73c239f8d4e"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_EDITOR"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
