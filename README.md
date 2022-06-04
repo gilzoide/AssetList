@@ -1,6 +1,6 @@
 # Asset List
-`ScriptableObject` that automatically aggregates all assets using an
-`AssetDatabase` search filter.
+`ScriptableObject` that automatically aggregates assets in a project using
+`AssetDatabase.FindAssets`.
 The list is automatically updated when opening Unity, entering Play mode,
 creating/deleting assets or building the project, so there is no need to
 manually update it.
