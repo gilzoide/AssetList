@@ -51,7 +51,6 @@ namespace Gilzoide.AssetList
             }
 
             Assets = AssetDatabase.FindAssets(SearchFilter, SearchInFolders)
-                .OrderBy(x => x)
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Select(AssetDatabase.LoadAssetAtPath<Object>)
                 .ToList();

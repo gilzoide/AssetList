@@ -3,8 +3,6 @@
 `AssetDatabase.FindAssets`.
 The list is automatically updated when entering Play mode or building the
 project, so there is no need to manually update it.
-The list is ordered by the assets' GUID, avoiding file diffs if a list update
-contains the same assets as before.
 
 ![](Extras~/demo.gif)
 
