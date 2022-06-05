@@ -50,7 +50,10 @@ namespace Gilzoide.AssetList
                 return;
             }
 
-            string[] searchFolders = SearchInFolders.Select(AssetDatabase.GetAssetPath).ToArray();
+            string[] searchFolders = SearchInFolders
+                .Select(AssetDatabase.GetAssetPath)
+                .Where(path => !string.IsNullOrEmpty(path))
+                .ToArray();
             Assets = AssetDatabase.FindAssets(SearchFilter, searchFolders)
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Select(AssetDatabase.LoadAssetAtPath<Object>)
