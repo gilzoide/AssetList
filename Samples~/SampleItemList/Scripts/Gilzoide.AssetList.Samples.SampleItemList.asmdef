@@ -1,0 +1,16 @@
+{
+    "name": "Gilzoide.AssetList.Samples.SampleItemList",
+    "rootNamespace": "Gilzoide.AssetList.Samples.SampleItemList",
+    "references": [
+        "GUID:faac9f32efd5330d8920c73c239f8d4e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

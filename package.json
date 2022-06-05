@@ -2,5 +2,12 @@
   "name": "com.gilzoide.assetlist",
   "displayName": "Asset List",
   "version": "1.0.0",
-  "description": "ScriptableObject that automatically aggregates all assets using a search filter"
+  "description": "ScriptableObject that automatically aggregates assets using AssetDatabase.FindAssets",
+  "samples": [
+      {
+          "displayName": "Item list",
+          "description": "Sample scene with an Item ScriptableObject list",
+          "path": "Samples~/SampleItemList"
+      }
+  ]
 }
