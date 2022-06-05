@@ -19,7 +19,7 @@ namespace Gilzoide.AssetList
         /// <summary>The folders where the search will start.</summary>
         /// <seealso cref="AssetDatabase.FindAssets" href="https://docs.unity3d.com/ScriptReference/AssetDatabase.FindAssets.html"/>
         [Tooltip("The folders where the search will start.")]
-        public string[] SearchInFolders;
+        public DefaultAsset[] SearchInFolders;
 
         /// <summary>
         /// List of assets found by <see cref="AssetDatabase.FindAssets"/> using
@@ -50,7 +50,8 @@ namespace Gilzoide.AssetList
                 return;
             }
 
-            Assets = AssetDatabase.FindAssets(SearchFilter, SearchInFolders)
+            string[] searchFolders = SearchInFolders.Select(AssetDatabase.GetAssetPath).ToArray();
+            Assets = AssetDatabase.FindAssets(SearchFilter, searchFolders)
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Select(AssetDatabase.LoadAssetAtPath<Object>)
                 .ToList();
